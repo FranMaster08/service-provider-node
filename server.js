@@ -2,17 +2,16 @@ const express = require('express');
 const passport = require('passport');
 const SamlStrategy = require('passport-saml').Strategy;
 const bodyParser = require('body-parser');
-require('dotenv').config()
+require('dotenv').config();
 
 const app = express();
 
-
 passport.use(new SamlStrategy(
     {
-        entryPoint: `https://login.microsoftonline.com/${process.env.TENANT_ID}/saml2`,
-        issuer: 'http://localhost:3000/',
-        callbackUrl: 'http://localhost:3000/login/callback',
-        cert: `${process.env.CERTIFICATE}`
+        entryPoint: `https://login.microsoftonline.com/${process.env.TENANT_ID}/saml2`, // Azure AD login URL
+        issuer: `${process.env.PUBLIC_URL}/`, // Entity ID
+        callbackUrl: `${process.env.PUBLIC_URL}/login/callback`, // ACS URL
+        cert: `${process.env.CERTIFICATE}` // Azure AD certificate
     },
     (profile, done) => {
         console.log('Perfil SAML:', profile);
@@ -38,4 +37,4 @@ app.post('/login/callback', passport.authenticate('saml', { failureRedirect: '/'
     }
 );
 
-app.listen(3000, () => console.log('Servidor corriendo en http://localhost:3000/'));
+app.listen(3007, () => console.log('Servidor corriendo en http://45.56.118.38:3007/'));
