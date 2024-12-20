@@ -6,7 +6,7 @@ require('dotenv').config()
 
 const app = express();
 
-// Configuración de la estrategia SAML
+
 passport.use(new SamlStrategy(
     {
         entryPoint: `https://login.microsoftonline.com/${process.env.TENANT_ID}/saml2`,
